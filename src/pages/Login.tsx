@@ -1,20 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button } from "antd";
-import { FieldValues, useForm } from "react-hook-form";
+import { Button, Row } from "antd";
+import { FieldValues, useForm, useFormContext } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser, TUser } from "../redux/features/auth/authSlice";
 import { verifyToken } from "../utils/verifyToken";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import PHForm from "../components/form/PHForm";
+import PHInput from "../components/form/PHInput";
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  const { register, handleSubmit } = useForm();
+  // const { register, handleSubmit } = useFormContext();
   const [login] = useLoginMutation();
   const navigate = useNavigate();
 
   const onSubmit = async (data: FieldValues) => {
+    console.log(data);
     try {
       const toastId = toast.loading("Loggin in...", { duration: 2000 });
       const userInfo = {
@@ -31,17 +34,17 @@ const Login = () => {
     }
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label htmlFor="id">ID: </label>
-        <input type="text" id="id" {...register("userId")} />
-      </div>
-      <div>
-        <label htmlFor="password">Passoword: </label>
-        <input type="text" id="password" {...register("password")} />
-      </div>
-      <Button htmlType="submit">Login</Button>
-    </form>
+    <Row justify="center" align="middle" style={{ height: "100vh" }}>
+      <PHForm onSubmit={onSubmit}>
+        <div>
+          <PHInput type="text" name="userId" label="ID: " />
+        </div>
+        <div>
+          <PHInput type="text" name="password" label="Password: " />
+        </div>
+        <Button htmlType="submit">Login</Button>
+      </PHForm>
+    </Row>
   );
 };
 
