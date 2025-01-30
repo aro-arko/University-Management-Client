@@ -35,11 +35,7 @@ const Login = () => {
       toast.success("Logged in", { id: toastId, duration: 2000 }); // Update success message
       navigate(`/${user.role}/dashboard`);
     } catch (err: any) {
-      if (err?.status === 404) {
-        toast.error("Invalid credentials!", { id: toastId });
-      } else {
-        toast.error("Something went wrong!", { id: toastId });
-      }
+      toast.error("Something went wrong!", { id: toastId });
     }
   };
 

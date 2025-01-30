@@ -24,6 +24,7 @@ const MainLayout = () => {
             display: "flex",
             alignItems: "center",
             position: "sticky",
+            zIndex: 1000,
             top: "0",
           }}
         >

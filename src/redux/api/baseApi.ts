@@ -29,9 +29,9 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 > = async (args, api, extraOptions): Promise<any> => {
   let result = await baseQuery(args, api, extraOptions);
   console.log(result);
-  // if (result?.error?.status == 404) {
-  //   toast.error("Invalid credentials!");
-  // }
+  if (result?.error?.status == 404) {
+    toast.error(result.error.data.message);
+  }
   if (result?.error?.status == 401) {
     console.log("Sending refresh token...");
 
