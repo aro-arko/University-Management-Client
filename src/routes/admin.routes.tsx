@@ -8,7 +8,7 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import Courses from "../pages/admin/CourseManagement/Courses";
 import CreateCourse from "../pages/admin/CourseManagement/CreateCourse";
 import OfferCourse from "../pages/admin/CourseManagement/OfferCourse";
-import RegisteredSemester from "../pages/admin/CourseManagement/RegisteredSemester";
+import RegisteredSemester from "../pages/admin/CourseManagement/RegisteredSemesters";
 import SemesterRegistration from "../pages/admin/CourseManagement/SemesterRegistration";
 import CreateAdmin from "../pages/admin/UserManagement/CreateAdmin";
 import CreateFaculty from "../pages/admin/UserManagement/CreateFaculty";
