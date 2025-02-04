@@ -1,5 +1,13 @@
-import { Button, Table } from "antd";
-import { useGetAllCoursesQuery } from "../../../redux/features/admin/courseManagementApi";
+import { Button, Modal, Table } from "antd";
+import {
+  useAddFacultiesMutation,
+  useGetAllCoursesQuery,
+} from "../../../redux/features/admin/courseManagementApi";
+import { useState } from "react";
+import PHForm from "../../../components/form/PHForm";
+import PHSelect from "../../../components/form/PHSelect";
+import { useGetAcademicFacultiesQuery } from "../../../redux/features/admin/academicManagement.api";
+import { useGetAllFacultiesQuery } from "../../../redux/features/admin/userManagement.api";
 
 const Courses = () => {
   const { data: courses, isFetching } = useGetAllCoursesQuery(undefined);
@@ -24,13 +32,68 @@ const Courses = () => {
     {
       title: "Action",
       key: "x",
-      render: () => {
-        return <Button>Assign Faculty</Button>;
+      render: (item) => {
+        return <AddFacultyModal facultyInfo={item} />;
       },
     },
   ];
   return (
     <Table loading={isFetching} columns={columns} dataSource={tableData} />
+  );
+};
+
+const AddFacultyModal = ({ facultyInfo }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { data: facultiesData } = useGetAllFacultiesQuery(undefined);
+  const [addFaculties] = useAddFacultiesMutation();
+
+  const facultiesOption = facultiesData?.data?.map((item) => ({
+    value: item._id,
+    label: item.fullName,
+  }));
+
+  console.log(facultiesData);
+
+  const handleSubmit = (data) => {
+    const facultyData = {
+      courseId: facultyInfo.key,
+      data: data,
+    };
+    addFaculties(facultyData);
+  };
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  return (
+    <>
+      <Button type="default" onClick={showModal}>
+        Add Faculty
+      </Button>
+      <Modal
+        title="Basic Modal"
+        open={isModalOpen}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <PHForm onSubmit={handleSubmit}>
+          <PHSelect
+            mode="multiple"
+            options={facultiesOption}
+            name="faculties"
+            label="Faculty"
+          />
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+        </PHForm>
+      </Modal>
+    </>
   );
 };
 
